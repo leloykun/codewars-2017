@@ -402,18 +402,6 @@ public final class LocalTestRendererListener {
         updateFields(graphics, world, game, canvasWidth, canvasHeight, left, top, width, height);
         if (listener != null)
     	{
-        	if (doSync == SyncMode.AUTO)
-        	{
-        		doSync = SyncMode.ENABLED;
-        		for (int i = 0; i < world.getPlayers().length; i++)
-        		{
-        			if (world.getPlayers()[i].getName().startsWith(LOCAL_STRATEGY_NAME))
-        			{
-        				doSync = SyncMode.DISABLED;
-        				break;
-        			}
-        		}
-        	}
 
         	if (doSync == SyncMode.ENABLED)
         	{

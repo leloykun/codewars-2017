@@ -1,1186 +1,579 @@
 package model;
 
-import java.util.Arrays;
-
-/**
- * Предоставляет доступ к различным игровым константам.
- */
-@SuppressWarnings("OverlyLongMethod")
 public class Game {
     private final long randomSeed;
     private final int tickCount;
-    private final double mapSize;
-    private final boolean skillsEnabled;
-    private final boolean rawMessagesEnabled;
-    private final double friendlyFireDamageFactor;
-    private final double buildingDamageScoreFactor;
-    private final double buildingEliminationScoreFactor;
-    private final double minionDamageScoreFactor;
-    private final double minionEliminationScoreFactor;
-    private final double wizardDamageScoreFactor;
-    private final double wizardEliminationScoreFactor;
-    private final double teamWorkingScoreFactor;
+    private final double worldWidth;
+    private final double worldHeight;
+    private final boolean fogOfWarEnabled;
     private final int victoryScore;
-    private final double scoreGainRange;
-    private final int rawMessageMaxLength;
-    private final double rawMessageTransmissionSpeed;
-    private final double wizardRadius;
-    private final double wizardCastRange;
-    private final double wizardVisionRange;
-    private final double wizardForwardSpeed;
-    private final double wizardBackwardSpeed;
-    private final double wizardStrafeSpeed;
-    private final int wizardBaseLife;
-    private final int wizardLifeGrowthPerLevel;
-    private final int wizardBaseMana;
-    private final int wizardManaGrowthPerLevel;
-    private final double wizardBaseLifeRegeneration;
-    private final double wizardLifeRegenerationGrowthPerLevel;
-    private final double wizardBaseManaRegeneration;
-    private final double wizardManaRegenerationGrowthPerLevel;
-    private final double wizardMaxTurnAngle;
-    private final int wizardMaxResurrectionDelayTicks;
-    private final int wizardMinResurrectionDelayTicks;
-    private final int wizardActionCooldownTicks;
-    private final int staffCooldownTicks;
-    private final int magicMissileCooldownTicks;
-    private final int frostBoltCooldownTicks;
-    private final int fireballCooldownTicks;
-    private final int hasteCooldownTicks;
-    private final int shieldCooldownTicks;
-    private final int magicMissileManacost;
-    private final int frostBoltManacost;
-    private final int fireballManacost;
-    private final int hasteManacost;
-    private final int shieldManacost;
-    private final int staffDamage;
-    private final double staffSector;
-    private final double staffRange;
-    private final int[] levelUpXpValues;
-    private final double minionRadius;
-    private final double minionVisionRange;
-    private final double minionSpeed;
-    private final double minionMaxTurnAngle;
-    private final int minionLife;
-    private final int factionMinionAppearanceIntervalTicks;
-    private final int orcWoodcutterActionCooldownTicks;
-    private final int orcWoodcutterDamage;
-    private final double orcWoodcutterAttackSector;
-    private final double orcWoodcutterAttackRange;
-    private final int fetishBlowdartActionCooldownTicks;
-    private final double fetishBlowdartAttackRange;
-    private final double fetishBlowdartAttackSector;
-    private final double bonusRadius;
-    private final int bonusAppearanceIntervalTicks;
-    private final int bonusScoreAmount;
-    private final double dartRadius;
-    private final double dartSpeed;
-    private final int dartDirectDamage;
-    private final double magicMissileRadius;
-    private final double magicMissileSpeed;
-    private final int magicMissileDirectDamage;
-    private final double frostBoltRadius;
-    private final double frostBoltSpeed;
-    private final int frostBoltDirectDamage;
-    private final double fireballRadius;
-    private final double fireballSpeed;
-    private final double fireballExplosionMaxDamageRange;
-    private final double fireballExplosionMinDamageRange;
-    private final int fireballExplosionMaxDamage;
-    private final int fireballExplosionMinDamage;
-    private final double guardianTowerRadius;
-    private final double guardianTowerVisionRange;
-    private final double guardianTowerLife;
-    private final double guardianTowerAttackRange;
-    private final int guardianTowerDamage;
-    private final int guardianTowerCooldownTicks;
-    private final double factionBaseRadius;
-    private final double factionBaseVisionRange;
-    private final double factionBaseLife;
-    private final double factionBaseAttackRange;
-    private final int factionBaseDamage;
-    private final int factionBaseCooldownTicks;
-    private final int burningDurationTicks;
-    private final int burningSummaryDamage;
-    private final int empoweredDurationTicks;
-    private final double empoweredDamageFactor;
-    private final int frozenDurationTicks;
-    private final int hastenedDurationTicks;
-    private final double hastenedBonusDurationFactor;
-    private final double hastenedMovementBonusFactor;
-    private final double hastenedRotationBonusFactor;
-    private final int shieldedDurationTicks;
-    private final double shieldedBonusDurationFactor;
-    private final double shieldedDirectDamageAbsorptionFactor;
-    private final double auraSkillRange;
-    private final double rangeBonusPerSkillLevel;
-    private final int magicalDamageBonusPerSkillLevel;
-    private final int staffDamageBonusPerSkillLevel;
-    private final double movementBonusFactorPerSkillLevel;
-    private final int magicalDamageAbsorptionPerSkillLevel;
+    private final int facilityCaptureScore;
+    private final int vehicleEliminationScore;
+    private final int actionDetectionInterval;
+    private final int baseActionCount;
+    private final int additionalActionCountPerControlCenter;
+    private final int maxUnitGroup;
+    private final int terrainWeatherMapColumnCount;
+    private final int terrainWeatherMapRowCount;
+    private final double plainTerrainVisionFactor;
+    private final double plainTerrainStealthFactor;
+    private final double plainTerrainSpeedFactor;
+    private final double swampTerrainVisionFactor;
+    private final double swampTerrainStealthFactor;
+    private final double swampTerrainSpeedFactor;
+    private final double forestTerrainVisionFactor;
+    private final double forestTerrainStealthFactor;
+    private final double forestTerrainSpeedFactor;
+    private final double clearWeatherVisionFactor;
+    private final double clearWeatherStealthFactor;
+    private final double clearWeatherSpeedFactor;
+    private final double cloudWeatherVisionFactor;
+    private final double cloudWeatherStealthFactor;
+    private final double cloudWeatherSpeedFactor;
+    private final double rainWeatherVisionFactor;
+    private final double rainWeatherStealthFactor;
+    private final double rainWeatherSpeedFactor;
+    private final double vehicleRadius;
+    private final int tankDurability;
+    private final double tankSpeed;
+    private final double tankVisionRange;
+    private final double tankGroundAttackRange;
+    private final double tankAerialAttackRange;
+    private final int tankGroundDamage;
+    private final int tankAerialDamage;
+    private final int tankGroundDefence;
+    private final int tankAerialDefence;
+    private final int tankAttackCooldownTicks;
+    private final int tankProductionCost;
+    private final int ifvDurability;
+    private final double ifvSpeed;
+    private final double ifvVisionRange;
+    private final double ifvGroundAttackRange;
+    private final double ifvAerialAttackRange;
+    private final int ifvGroundDamage;
+    private final int ifvAerialDamage;
+    private final int ifvGroundDefence;
+    private final int ifvAerialDefence;
+    private final int ifvAttackCooldownTicks;
+    private final int ifvProductionCost;
+    private final int arrvDurability;
+    private final double arrvSpeed;
+    private final double arrvVisionRange;
+    private final int arrvGroundDefence;
+    private final int arrvAerialDefence;
+    private final int arrvProductionCost;
+    private final double arrvRepairRange;
+    private final double arrvRepairSpeed;
+    private final int helicopterDurability;
+    private final double helicopterSpeed;
+    private final double helicopterVisionRange;
+    private final double helicopterGroundAttackRange;
+    private final double helicopterAerialAttackRange;
+    private final int helicopterGroundDamage;
+    private final int helicopterAerialDamage;
+    private final int helicopterGroundDefence;
+    private final int helicopterAerialDefence;
+    private final int helicopterAttackCooldownTicks;
+    private final int helicopterProductionCost;
+    private final int fighterDurability;
+    private final double fighterSpeed;
+    private final double fighterVisionRange;
+    private final double fighterGroundAttackRange;
+    private final double fighterAerialAttackRange;
+    private final int fighterGroundDamage;
+    private final int fighterAerialDamage;
+    private final int fighterGroundDefence;
+    private final int fighterAerialDefence;
+    private final int fighterAttackCooldownTicks;
+    private final int fighterProductionCost;
+    private final double maxFacilityCapturePoints;
+    private final double facilityCapturePointsPerVehiclePerTick;
+    private final double facilityWidth;
+    private final double facilityHeight;
+    private final int baseTacticalNuclearStrikeCooldown;
+    private final int tacticalNuclearStrikeCooldownDecreasePerControlCenter;
+    private final double maxTacticalNuclearStrikeDamage;
+    private final double tacticalNuclearStrikeRadius;
+    private final int tacticalNuclearStrikeDelay;
 
+    @SuppressWarnings("OverlyLongMethod")
     public Game(
-            long randomSeed, int tickCount, double mapSize, boolean skillsEnabled, boolean rawMessagesEnabled,
-            double friendlyFireDamageFactor, double buildingDamageScoreFactor, double buildingEliminationScoreFactor,
-            double minionDamageScoreFactor, double minionEliminationScoreFactor, double wizardDamageScoreFactor,
-            double wizardEliminationScoreFactor, double teamWorkingScoreFactor, int victoryScore, double scoreGainRange,
-            int rawMessageMaxLength, double rawMessageTransmissionSpeed, double wizardRadius, double wizardCastRange,
-            double wizardVisionRange, double wizardForwardSpeed, double wizardBackwardSpeed, double wizardStrafeSpeed,
-            int wizardBaseLife, int wizardLifeGrowthPerLevel, int wizardBaseMana, int wizardManaGrowthPerLevel,
-            double wizardBaseLifeRegeneration, double wizardLifeRegenerationGrowthPerLevel,
-            double wizardBaseManaRegeneration, double wizardManaRegenerationGrowthPerLevel, double wizardMaxTurnAngle,
-            int wizardMaxResurrectionDelayTicks, int wizardMinResurrectionDelayTicks, int wizardActionCooldownTicks,
-            int staffCooldownTicks, int magicMissileCooldownTicks, int frostBoltCooldownTicks,
-            int fireballCooldownTicks, int hasteCooldownTicks, int shieldCooldownTicks, int magicMissileManacost,
-            int frostBoltManacost, int fireballManacost, int hasteManacost, int shieldManacost, int staffDamage,
-            double staffSector, double staffRange, int[] levelUpXpValues, double minionRadius, double minionVisionRange,
-            double minionSpeed, double minionMaxTurnAngle, int minionLife, int factionMinionAppearanceIntervalTicks,
-            int orcWoodcutterActionCooldownTicks, int orcWoodcutterDamage, double orcWoodcutterAttackSector,
-            double orcWoodcutterAttackRange, int fetishBlowdartActionCooldownTicks, double fetishBlowdartAttackRange,
-            double fetishBlowdartAttackSector, double bonusRadius, int bonusAppearanceIntervalTicks,
-            int bonusScoreAmount, double dartRadius, double dartSpeed, int dartDirectDamage, double magicMissileRadius,
-            double magicMissileSpeed, int magicMissileDirectDamage, double frostBoltRadius, double frostBoltSpeed,
-            int frostBoltDirectDamage, double fireballRadius, double fireballSpeed,
-            double fireballExplosionMaxDamageRange, double fireballExplosionMinDamageRange,
-            int fireballExplosionMaxDamage, int fireballExplosionMinDamage, double guardianTowerRadius,
-            double guardianTowerVisionRange, double guardianTowerLife, double guardianTowerAttackRange,
-            int guardianTowerDamage, int guardianTowerCooldownTicks, double factionBaseRadius,
-            double factionBaseVisionRange, double factionBaseLife, double factionBaseAttackRange, int factionBaseDamage,
-            int factionBaseCooldownTicks, int burningDurationTicks, int burningSummaryDamage,
-            int empoweredDurationTicks, double empoweredDamageFactor, int frozenDurationTicks,
-            int hastenedDurationTicks, double hastenedBonusDurationFactor, double hastenedMovementBonusFactor,
-            double hastenedRotationBonusFactor, int shieldedDurationTicks, double shieldedBonusDurationFactor,
-            double shieldedDirectDamageAbsorptionFactor, double auraSkillRange, double rangeBonusPerSkillLevel,
-            int magicalDamageBonusPerSkillLevel, int staffDamageBonusPerSkillLevel,
-            double movementBonusFactorPerSkillLevel, int magicalDamageAbsorptionPerSkillLevel) {
+            long randomSeed, int tickCount, double worldWidth, double worldHeight, boolean fogOfWarEnabled,
+            int victoryScore, int facilityCaptureScore, int vehicleEliminationScore, int actionDetectionInterval,
+            int baseActionCount, int additionalActionCountPerControlCenter, int maxUnitGroup,
+            int terrainWeatherMapColumnCount, int terrainWeatherMapRowCount, double plainTerrainVisionFactor,
+            double plainTerrainStealthFactor, double plainTerrainSpeedFactor, double swampTerrainVisionFactor,
+            double swampTerrainStealthFactor, double swampTerrainSpeedFactor, double forestTerrainVisionFactor,
+            double forestTerrainStealthFactor, double forestTerrainSpeedFactor, double clearWeatherVisionFactor,
+            double clearWeatherStealthFactor, double clearWeatherSpeedFactor, double cloudWeatherVisionFactor,
+            double cloudWeatherStealthFactor, double cloudWeatherSpeedFactor, double rainWeatherVisionFactor,
+            double rainWeatherStealthFactor, double rainWeatherSpeedFactor, double vehicleRadius, int tankDurability,
+            double tankSpeed, double tankVisionRange, double tankGroundAttackRange, double tankAerialAttackRange,
+            int tankGroundDamage, int tankAerialDamage, int tankGroundDefence, int tankAerialDefence,
+            int tankAttackCooldownTicks, int tankProductionCost, int ifvDurability, double ifvSpeed,
+            double ifvVisionRange, double ifvGroundAttackRange, double ifvAerialAttackRange, int ifvGroundDamage,
+            int ifvAerialDamage, int ifvGroundDefence, int ifvAerialDefence, int ifvAttackCooldownTicks,
+            int ifvProductionCost, int arrvDurability, double arrvSpeed, double arrvVisionRange, int arrvGroundDefence,
+            int arrvAerialDefence, int arrvProductionCost, double arrvRepairRange, double arrvRepairSpeed,
+            int helicopterDurability, double helicopterSpeed, double helicopterVisionRange,
+            double helicopterGroundAttackRange, double helicopterAerialAttackRange, int helicopterGroundDamage,
+            int helicopterAerialDamage, int helicopterGroundDefence, int helicopterAerialDefence,
+            int helicopterAttackCooldownTicks, int helicopterProductionCost, int fighterDurability, double fighterSpeed,
+            double fighterVisionRange, double fighterGroundAttackRange, double fighterAerialAttackRange,
+            int fighterGroundDamage, int fighterAerialDamage, int fighterGroundDefence, int fighterAerialDefence,
+            int fighterAttackCooldownTicks, int fighterProductionCost, double maxFacilityCapturePoints,
+            double facilityCapturePointsPerVehiclePerTick, double facilityWidth, double facilityHeight,
+            int baseTacticalNuclearStrikeCooldown, int tacticalNuclearStrikeCooldownDecreasePerControlCenter,
+            double maxTacticalNuclearStrikeDamage, double tacticalNuclearStrikeRadius, int tacticalNuclearStrikeDelay) {
         this.randomSeed = randomSeed;
         this.tickCount = tickCount;
-        this.mapSize = mapSize;
-        this.skillsEnabled = skillsEnabled;
-        this.rawMessagesEnabled = rawMessagesEnabled;
-        this.friendlyFireDamageFactor = friendlyFireDamageFactor;
-        this.buildingDamageScoreFactor = buildingDamageScoreFactor;
-        this.buildingEliminationScoreFactor = buildingEliminationScoreFactor;
-        this.minionDamageScoreFactor = minionDamageScoreFactor;
-        this.minionEliminationScoreFactor = minionEliminationScoreFactor;
-        this.wizardDamageScoreFactor = wizardDamageScoreFactor;
-        this.wizardEliminationScoreFactor = wizardEliminationScoreFactor;
-        this.teamWorkingScoreFactor = teamWorkingScoreFactor;
+        this.worldWidth = worldWidth;
+        this.worldHeight = worldHeight;
+        this.fogOfWarEnabled = fogOfWarEnabled;
         this.victoryScore = victoryScore;
-        this.scoreGainRange = scoreGainRange;
-        this.rawMessageMaxLength = rawMessageMaxLength;
-        this.rawMessageTransmissionSpeed = rawMessageTransmissionSpeed;
-        this.wizardRadius = wizardRadius;
-        this.wizardCastRange = wizardCastRange;
-        this.wizardVisionRange = wizardVisionRange;
-        this.wizardForwardSpeed = wizardForwardSpeed;
-        this.wizardBackwardSpeed = wizardBackwardSpeed;
-        this.wizardStrafeSpeed = wizardStrafeSpeed;
-        this.wizardBaseLife = wizardBaseLife;
-        this.wizardLifeGrowthPerLevel = wizardLifeGrowthPerLevel;
-        this.wizardBaseMana = wizardBaseMana;
-        this.wizardManaGrowthPerLevel = wizardManaGrowthPerLevel;
-        this.wizardBaseLifeRegeneration = wizardBaseLifeRegeneration;
-        this.wizardLifeRegenerationGrowthPerLevel = wizardLifeRegenerationGrowthPerLevel;
-        this.wizardBaseManaRegeneration = wizardBaseManaRegeneration;
-        this.wizardManaRegenerationGrowthPerLevel = wizardManaRegenerationGrowthPerLevel;
-        this.wizardMaxTurnAngle = wizardMaxTurnAngle;
-        this.wizardMaxResurrectionDelayTicks = wizardMaxResurrectionDelayTicks;
-        this.wizardMinResurrectionDelayTicks = wizardMinResurrectionDelayTicks;
-        this.wizardActionCooldownTicks = wizardActionCooldownTicks;
-        this.staffCooldownTicks = staffCooldownTicks;
-        this.magicMissileCooldownTicks = magicMissileCooldownTicks;
-        this.frostBoltCooldownTicks = frostBoltCooldownTicks;
-        this.fireballCooldownTicks = fireballCooldownTicks;
-        this.hasteCooldownTicks = hasteCooldownTicks;
-        this.shieldCooldownTicks = shieldCooldownTicks;
-        this.magicMissileManacost = magicMissileManacost;
-        this.frostBoltManacost = frostBoltManacost;
-        this.fireballManacost = fireballManacost;
-        this.hasteManacost = hasteManacost;
-        this.shieldManacost = shieldManacost;
-        this.staffDamage = staffDamage;
-        this.staffSector = staffSector;
-        this.staffRange = staffRange;
-        this.levelUpXpValues = Arrays.copyOf(levelUpXpValues, levelUpXpValues.length);
-        this.minionRadius = minionRadius;
-        this.minionVisionRange = minionVisionRange;
-        this.minionSpeed = minionSpeed;
-        this.minionMaxTurnAngle = minionMaxTurnAngle;
-        this.minionLife = minionLife;
-        this.factionMinionAppearanceIntervalTicks = factionMinionAppearanceIntervalTicks;
-        this.orcWoodcutterActionCooldownTicks = orcWoodcutterActionCooldownTicks;
-        this.orcWoodcutterDamage = orcWoodcutterDamage;
-        this.orcWoodcutterAttackSector = orcWoodcutterAttackSector;
-        this.orcWoodcutterAttackRange = orcWoodcutterAttackRange;
-        this.fetishBlowdartActionCooldownTicks = fetishBlowdartActionCooldownTicks;
-        this.fetishBlowdartAttackRange = fetishBlowdartAttackRange;
-        this.fetishBlowdartAttackSector = fetishBlowdartAttackSector;
-        this.bonusRadius = bonusRadius;
-        this.bonusAppearanceIntervalTicks = bonusAppearanceIntervalTicks;
-        this.bonusScoreAmount = bonusScoreAmount;
-        this.dartRadius = dartRadius;
-        this.dartSpeed = dartSpeed;
-        this.dartDirectDamage = dartDirectDamage;
-        this.magicMissileRadius = magicMissileRadius;
-        this.magicMissileSpeed = magicMissileSpeed;
-        this.magicMissileDirectDamage = magicMissileDirectDamage;
-        this.frostBoltRadius = frostBoltRadius;
-        this.frostBoltSpeed = frostBoltSpeed;
-        this.frostBoltDirectDamage = frostBoltDirectDamage;
-        this.fireballRadius = fireballRadius;
-        this.fireballSpeed = fireballSpeed;
-        this.fireballExplosionMaxDamageRange = fireballExplosionMaxDamageRange;
-        this.fireballExplosionMinDamageRange = fireballExplosionMinDamageRange;
-        this.fireballExplosionMaxDamage = fireballExplosionMaxDamage;
-        this.fireballExplosionMinDamage = fireballExplosionMinDamage;
-        this.guardianTowerRadius = guardianTowerRadius;
-        this.guardianTowerVisionRange = guardianTowerVisionRange;
-        this.guardianTowerLife = guardianTowerLife;
-        this.guardianTowerAttackRange = guardianTowerAttackRange;
-        this.guardianTowerDamage = guardianTowerDamage;
-        this.guardianTowerCooldownTicks = guardianTowerCooldownTicks;
-        this.factionBaseRadius = factionBaseRadius;
-        this.factionBaseVisionRange = factionBaseVisionRange;
-        this.factionBaseLife = factionBaseLife;
-        this.factionBaseAttackRange = factionBaseAttackRange;
-        this.factionBaseDamage = factionBaseDamage;
-        this.factionBaseCooldownTicks = factionBaseCooldownTicks;
-        this.burningDurationTicks = burningDurationTicks;
-        this.burningSummaryDamage = burningSummaryDamage;
-        this.empoweredDurationTicks = empoweredDurationTicks;
-        this.empoweredDamageFactor = empoweredDamageFactor;
-        this.frozenDurationTicks = frozenDurationTicks;
-        this.hastenedDurationTicks = hastenedDurationTicks;
-        this.hastenedBonusDurationFactor = hastenedBonusDurationFactor;
-        this.hastenedMovementBonusFactor = hastenedMovementBonusFactor;
-        this.hastenedRotationBonusFactor = hastenedRotationBonusFactor;
-        this.shieldedDurationTicks = shieldedDurationTicks;
-        this.shieldedBonusDurationFactor = shieldedBonusDurationFactor;
-        this.shieldedDirectDamageAbsorptionFactor = shieldedDirectDamageAbsorptionFactor;
-        this.auraSkillRange = auraSkillRange;
-        this.rangeBonusPerSkillLevel = rangeBonusPerSkillLevel;
-        this.magicalDamageBonusPerSkillLevel = magicalDamageBonusPerSkillLevel;
-        this.staffDamageBonusPerSkillLevel = staffDamageBonusPerSkillLevel;
-        this.movementBonusFactorPerSkillLevel = movementBonusFactorPerSkillLevel;
-        this.magicalDamageAbsorptionPerSkillLevel = magicalDamageAbsorptionPerSkillLevel;
+        this.facilityCaptureScore = facilityCaptureScore;
+        this.vehicleEliminationScore = vehicleEliminationScore;
+        this.actionDetectionInterval = actionDetectionInterval;
+        this.baseActionCount = baseActionCount;
+        this.additionalActionCountPerControlCenter = additionalActionCountPerControlCenter;
+        this.maxUnitGroup = maxUnitGroup;
+        this.terrainWeatherMapColumnCount = terrainWeatherMapColumnCount;
+        this.terrainWeatherMapRowCount = terrainWeatherMapRowCount;
+        this.plainTerrainVisionFactor = plainTerrainVisionFactor;
+        this.plainTerrainStealthFactor = plainTerrainStealthFactor;
+        this.plainTerrainSpeedFactor = plainTerrainSpeedFactor;
+        this.swampTerrainVisionFactor = swampTerrainVisionFactor;
+        this.swampTerrainStealthFactor = swampTerrainStealthFactor;
+        this.swampTerrainSpeedFactor = swampTerrainSpeedFactor;
+        this.forestTerrainVisionFactor = forestTerrainVisionFactor;
+        this.forestTerrainStealthFactor = forestTerrainStealthFactor;
+        this.forestTerrainSpeedFactor = forestTerrainSpeedFactor;
+        this.clearWeatherVisionFactor = clearWeatherVisionFactor;
+        this.clearWeatherStealthFactor = clearWeatherStealthFactor;
+        this.clearWeatherSpeedFactor = clearWeatherSpeedFactor;
+        this.cloudWeatherVisionFactor = cloudWeatherVisionFactor;
+        this.cloudWeatherStealthFactor = cloudWeatherStealthFactor;
+        this.cloudWeatherSpeedFactor = cloudWeatherSpeedFactor;
+        this.rainWeatherVisionFactor = rainWeatherVisionFactor;
+        this.rainWeatherStealthFactor = rainWeatherStealthFactor;
+        this.rainWeatherSpeedFactor = rainWeatherSpeedFactor;
+        this.vehicleRadius = vehicleRadius;
+        this.tankDurability = tankDurability;
+        this.tankSpeed = tankSpeed;
+        this.tankVisionRange = tankVisionRange;
+        this.tankGroundAttackRange = tankGroundAttackRange;
+        this.tankAerialAttackRange = tankAerialAttackRange;
+        this.tankGroundDamage = tankGroundDamage;
+        this.tankAerialDamage = tankAerialDamage;
+        this.tankGroundDefence = tankGroundDefence;
+        this.tankAerialDefence = tankAerialDefence;
+        this.tankAttackCooldownTicks = tankAttackCooldownTicks;
+        this.tankProductionCost = tankProductionCost;
+        this.ifvDurability = ifvDurability;
+        this.ifvSpeed = ifvSpeed;
+        this.ifvVisionRange = ifvVisionRange;
+        this.ifvGroundAttackRange = ifvGroundAttackRange;
+        this.ifvAerialAttackRange = ifvAerialAttackRange;
+        this.ifvGroundDamage = ifvGroundDamage;
+        this.ifvAerialDamage = ifvAerialDamage;
+        this.ifvGroundDefence = ifvGroundDefence;
+        this.ifvAerialDefence = ifvAerialDefence;
+        this.ifvAttackCooldownTicks = ifvAttackCooldownTicks;
+        this.ifvProductionCost = ifvProductionCost;
+        this.arrvDurability = arrvDurability;
+        this.arrvSpeed = arrvSpeed;
+        this.arrvVisionRange = arrvVisionRange;
+        this.arrvGroundDefence = arrvGroundDefence;
+        this.arrvAerialDefence = arrvAerialDefence;
+        this.arrvProductionCost = arrvProductionCost;
+        this.arrvRepairRange = arrvRepairRange;
+        this.arrvRepairSpeed = arrvRepairSpeed;
+        this.helicopterDurability = helicopterDurability;
+        this.helicopterSpeed = helicopterSpeed;
+        this.helicopterVisionRange = helicopterVisionRange;
+        this.helicopterGroundAttackRange = helicopterGroundAttackRange;
+        this.helicopterAerialAttackRange = helicopterAerialAttackRange;
+        this.helicopterGroundDamage = helicopterGroundDamage;
+        this.helicopterAerialDamage = helicopterAerialDamage;
+        this.helicopterGroundDefence = helicopterGroundDefence;
+        this.helicopterAerialDefence = helicopterAerialDefence;
+        this.helicopterAttackCooldownTicks = helicopterAttackCooldownTicks;
+        this.helicopterProductionCost = helicopterProductionCost;
+        this.fighterDurability = fighterDurability;
+        this.fighterSpeed = fighterSpeed;
+        this.fighterVisionRange = fighterVisionRange;
+        this.fighterGroundAttackRange = fighterGroundAttackRange;
+        this.fighterAerialAttackRange = fighterAerialAttackRange;
+        this.fighterGroundDamage = fighterGroundDamage;
+        this.fighterAerialDamage = fighterAerialDamage;
+        this.fighterGroundDefence = fighterGroundDefence;
+        this.fighterAerialDefence = fighterAerialDefence;
+        this.fighterAttackCooldownTicks = fighterAttackCooldownTicks;
+        this.fighterProductionCost = fighterProductionCost;
+        this.maxFacilityCapturePoints = maxFacilityCapturePoints;
+        this.facilityCapturePointsPerVehiclePerTick = facilityCapturePointsPerVehiclePerTick;
+        this.facilityWidth = facilityWidth;
+        this.facilityHeight = facilityHeight;
+        this.baseTacticalNuclearStrikeCooldown = baseTacticalNuclearStrikeCooldown;
+        this.tacticalNuclearStrikeCooldownDecreasePerControlCenter = tacticalNuclearStrikeCooldownDecreasePerControlCenter;
+        this.maxTacticalNuclearStrikeDamage = maxTacticalNuclearStrikeDamage;
+        this.tacticalNuclearStrikeRadius = tacticalNuclearStrikeRadius;
+        this.tacticalNuclearStrikeDelay = tacticalNuclearStrikeDelay;
     }
 
-    /**
-     * @return Возвращает некоторое число, которое ваша стратегия может использовать для инициализации генератора
-     * случайных чисел. Данное значение имеет рекомендательный характер, однако позволит более точно воспроизводить
-     * прошедшие игры.
-     */
     public long getRandomSeed() {
         return randomSeed;
     }
 
-    /**
-     * @return Возвращает базовую длительность игры в тиках. Реальная длительность может отличаться от этого значения в
-     * меньшую сторону. Эквивалентно {@code world.tickCount}.
-     */
     public int getTickCount() {
         return tickCount;
     }
 
-    /**
-     * @return Возвращает размер (ширину и высоту) карты.
-     */
-    public double getMapSize() {
-        return mapSize;
+    public double getWorldWidth() {
+        return worldWidth;
     }
 
-    /**
-     * @return Возвращает {@code true}, если и только если в данной игре волшебники могут повышать свой уровень
-     * (накапливая опыт) и изучать новые умения.
-     */
-    public boolean isSkillsEnabled() {
-        return skillsEnabled;
+    public double getWorldHeight() {
+        return worldHeight;
     }
 
-    /**
-     * @return Возвращает {@code true}, если и только если верховные волшебники в данной игре могут передавать
-     * низкоуровневые сообщения другим волшебникам своей фракции.
-     */
-    public boolean isRawMessagesEnabled() {
-        return rawMessagesEnabled;
+    public boolean isFogOfWarEnabled() {
+        return fogOfWarEnabled;
     }
 
-    /**
-     * @return Возвращает коэффициент урона, наносимого волшебниками одной фракции друг другу в результате
-     * дружественного огня.
-     * <p>
-     * Значение зависит от режима игры, но не может выходить за границы интервала от {@code 0.0} до {@code 1.0}.
-     * <p>
-     * Вне зависимости от режима игры, волшебники не могут наносить урон союзным миньонам и структурам.
-     */
-    public double getFriendlyFireDamageFactor() {
-        return friendlyFireDamageFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником при нанесении урона строениям противоположной
-     * фракции.
-     */
-    public double getBuildingDamageScoreFactor() {
-        return buildingDamageScoreFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником за разрушение строения противоположной фракции.
-     * <p>
-     * Применяется к максимальному количеству жизненной энергии строения.
-     */
-    public double getBuildingEliminationScoreFactor() {
-        return buildingEliminationScoreFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником при нанесении урона миньонам другой фракции.
-     */
-    public double getMinionDamageScoreFactor() {
-        return minionDamageScoreFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником за уничтожение миньона другой фракции.
-     * <p>
-     * Применяется к максимальному количеству жизненной энергии миньона.
-     */
-    public double getMinionEliminationScoreFactor() {
-        return minionEliminationScoreFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником при нанесении урона волшебникам противоположной
-     * фракции.
-     */
-    public double getWizardDamageScoreFactor() {
-        return wizardDamageScoreFactor;
-    }
-
-    /**
-     * @return Возвращает коэффициент опыта, получаемого волшебником за разрушение телесной оболочки волшебника
-     * противоположной фракции.
-     * <p>
-     * Применяется к максимальному количеству жизненной энергии волшебника.
-     */
-    public double getWizardEliminationScoreFactor() {
-        return wizardEliminationScoreFactor;
-    }
-
-    /**
-     * @return Возвращает мультипликатор опыта, применяемый в случае уничтожения юнита противника при участии двух или
-     * более волшебников.
-     * <p>
-     * После применения мультипликатора количество опыта округляется вниз до ближайшего целого значения.
-     */
-    public double getTeamWorkingScoreFactor() {
-        return teamWorkingScoreFactor;
-    }
-
-    /**
-     * @return Возвращает количество баллов, получаемых всеми игроками фракции в случае победы --- разрушения базы
-     * противоположной фракции.
-     */
     public int getVictoryScore() {
         return victoryScore;
     }
 
-    /**
-     * @return Возвращает максимальное расстояние, на котором волшебник получает опыт при уничтожении союзником юнита
-     * другой фракции.
-     * <p>
-     * При уничтожении противника опыт равномерно распределяется между всеми волшебниками, находящимися на расстоянии от
-     * цели, на превышающем {@code scoreGainRange}, а также юнитом, нанёсшим урон, если это тоже волшебник.
-     * <p>
-     * При нанесении противнику урона, не приводящему к уничтожению юнита, данный параметр не применяется, а опыт
-     * полностью достаётся атакующему волшебнику. В случае атаки миньона или строения опыт не достаётся никому.
-     * <p>
-     * Учитывается расстояние между центрами юнитов.
-     */
-    public double getScoreGainRange() {
-        return scoreGainRange;
-    }
-
-    /**
-     * @return Возвращает максимально возможную длину низкоуровневого сообщения.
-     * <p>
-     * Сообщения, длина которых превышает указанное значение, будут проигнорированы.
-     */
-    public int getRawMessageMaxLength() {
-        return rawMessageMaxLength;
-    }
-
-    /**
-     * @return Возвращает скорость отправки сообщения.
-     * <p>
-     * Если текстовая часть сообщения пуста, то адресат получит его уже в следующий игровой тик. В противном случае,
-     * момент получения сообщения будет отложен на {@code ceil(message.rawMessage.length / rawMessageTransmissionSpeed)}
-     * игровых тиков.
-     */
-    public double getRawMessageTransmissionSpeed() {
-        return rawMessageTransmissionSpeed;
-    }
-
-    /**
-     * @return Возвращает радиус волшебника.
-     */
-    public double getWizardRadius() {
-        return wizardRadius;
-    }
-
-    /**
-     * @return Возвращает базовую дальность заклинаний волшебника.
-     * <p>
-     * Эффективная дальность ({@code wizard.castRange}) может быть выше в результате действия некоторых аур и/или
-     * изучения волшебником некоторых умений.
-     */
-    public double getWizardCastRange() {
-        return wizardCastRange;
-    }
-
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором волшебник обнаруживает другие
-     * объекты.
-     */
-    public double getWizardVisionRange() {
-        return wizardVisionRange;
-    }
-
-    /**
-     * @return Возвращает базовое ограничение скорости волшебника при движении вперёд.
-     * <p>
-     * Эффективное ограничение может быть выше в результате действия некоторых аур и/или изучения волшебником некоторых
-     * умений, а также в результате действия статуса {@code HASTENED}.
-     */
-    public double getWizardForwardSpeed() {
-        return wizardForwardSpeed;
-    }
-
-    /**
-     * @return Возвращает базовое ограничение скорости волшебника при движении назад.
-     * <p>
-     * Эффективное ограничение может быть выше в результате действия некоторых аур и/или изучения волшебником некоторых
-     * умений, а также в результате действия статуса {@code HASTENED}.
-     */
-    public double getWizardBackwardSpeed() {
-        return wizardBackwardSpeed;
-    }
-
-    /**
-     * @return Возвращает базовое ограничение скорости волшебника при движении боком.
-     * <p>
-     * Эффективное ограничение может быть выше в результате действия некоторых аур и/или изучения волшебником некоторых
-     * умений, а также в результате действия статуса {@code HASTENED}.
-     */
-    public double getWizardStrafeSpeed() {
-        return wizardStrafeSpeed;
-    }
-
-    /**
-     * @return Возвращает максимальное значение жизненной энергии волшебника на уровне {@code 0}.
-     */
-    public int getWizardBaseLife() {
-        return wizardBaseLife;
-    }
-
-    /**
-     * @return Возвращает прирост жизненной энергии волшебника за уровень.
-     */
-    public int getWizardLifeGrowthPerLevel() {
-        return wizardLifeGrowthPerLevel;
+    public int getFacilityCaptureScore() {
+        return facilityCaptureScore;
     }
 
-    /**
-     * @return Возвращает максимальное значение магической энергии волшебника на уровне {@code 0}.
-     */
-    public int getWizardBaseMana() {
-        return wizardBaseMana;
+    public int getVehicleEliminationScore() {
+        return vehicleEliminationScore;
     }
 
-    /**
-     * @return Возвращает прирост магической энергии волшебника за уровень.
-     */
-    public int getWizardManaGrowthPerLevel() {
-        return wizardManaGrowthPerLevel;
+    public int getActionDetectionInterval() {
+        return actionDetectionInterval;
     }
 
-    /**
-     * @return Возвращает количество жизненной энергии, которое волшебник уровня {@code 0} восстанавливает за один тик.
-     */
-    public double getWizardBaseLifeRegeneration() {
-        return wizardBaseLifeRegeneration;
+    public int getBaseActionCount() {
+        return baseActionCount;
     }
 
-    /**
-     * @return Возвращает прирост скорости регенерации жизненной энергии волшебника за один уровень.
-     */
-    public double getWizardLifeRegenerationGrowthPerLevel() {
-        return wizardLifeRegenerationGrowthPerLevel;
+    public int getAdditionalActionCountPerControlCenter() {
+        return additionalActionCountPerControlCenter;
     }
 
-    /**
-     * @return Возвращает количество магической энергии, которое волшебник уровня {@code 0} восстанавливает за один тик.
-     */
-    public double getWizardBaseManaRegeneration() {
-        return wizardBaseManaRegeneration;
+    public int getMaxUnitGroup() {
+        return maxUnitGroup;
     }
 
-    /**
-     * @return Возвращает прирост скорости регенерации магической энергии волшебника за один уровень.
-     */
-    public double getWizardManaRegenerationGrowthPerLevel() {
-        return wizardManaRegenerationGrowthPerLevel;
+    public int getTerrainWeatherMapColumnCount() {
+        return terrainWeatherMapColumnCount;
     }
 
-    /**
-     * @return Возвращает базовое ограничение на изменение угла поворота волшебника за один тик.
-     * <p>
-     * Эффективное ограничение может быть выше в {@code 1.0 + hastenedRotationBonusFactor} раз в результате действия
-     * статуса {@code HASTENED}.
-     */
-    public double getWizardMaxTurnAngle() {
-        return wizardMaxTurnAngle;
+    public int getTerrainWeatherMapRowCount() {
+        return terrainWeatherMapRowCount;
     }
 
-    /**
-     * @return Возвращает максимально возможную задержку возрождения волшебника после смерти его телесной оболочки.
-     * <p>
-     * Если волшебник погибает сразу после своего возрождения, то он будет автоматически воскрешён на своей начальной
-     * позиции (или недалеко от неё, если это невозможно) через {@code wizardMaxResurrectionDelayTicks} тиков. Каждый
-     * игровой тик жизни волшебника уменьшшает эту задержку на единицу. Задержка возрождения не может стать меньше, чем
-     * {@code wizardMinResurrectionDelayTicks}.
-     */
-    public int getWizardMaxResurrectionDelayTicks() {
-        return wizardMaxResurrectionDelayTicks;
+    public double getPlainTerrainVisionFactor() {
+        return plainTerrainVisionFactor;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку возрождения волшебника после смерти его телесной оболочки.
-     * <p>
-     * Если волшебник погибает сразу после своего возрождения, то он будет автоматически воскрешён на своей начальной
-     * позиции (или недалеко от неё, если это невозможно) через {@code wizardMaxResurrectionDelayTicks} тиков. Каждый
-     * игровой тик жизни волшебника уменьшшает эту задержку на единицу. Задержка возрождения не может стать меньше, чем
-     * {@code wizardMinResurrectionDelayTicks}.
-     */
-    public int getWizardMinResurrectionDelayTicks() {
-        return wizardMinResurrectionDelayTicks;
+    public double getPlainTerrainStealthFactor() {
+        return plainTerrainStealthFactor;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку между любыми двумя последовательными действиями волшебника.
-     */
-    public int getWizardActionCooldownTicks() {
-        return wizardActionCooldownTicks;
+    public double getPlainTerrainSpeedFactor() {
+        return plainTerrainSpeedFactor;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными ударами посохом.
-     */
-    public int getStaffCooldownTicks() {
-        return staffCooldownTicks;
-    }
-
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными заклинаниями <<Магическая
-     * ракета>>.
-     */
-    public int getMagicMissileCooldownTicks() {
-        return magicMissileCooldownTicks;
-    }
-
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными заклинаниями <<Ледяная стрела>>.
-     */
-    public int getFrostBoltCooldownTicks() {
-        return frostBoltCooldownTicks;
+    public double getSwampTerrainVisionFactor() {
+        return swampTerrainVisionFactor;
     }
-
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными заклинаниями <<Огненный шар>>.
-     */
-    public int getFireballCooldownTicks() {
-        return fireballCooldownTicks;
+
+    public double getSwampTerrainStealthFactor() {
+        return swampTerrainStealthFactor;
+    }
+
+    public double getSwampTerrainSpeedFactor() {
+        return swampTerrainSpeedFactor;
+    }
+
+    public double getForestTerrainVisionFactor() {
+        return forestTerrainVisionFactor;
+    }
+
+    public double getForestTerrainStealthFactor() {
+        return forestTerrainStealthFactor;
+    }
+
+    public double getForestTerrainSpeedFactor() {
+        return forestTerrainSpeedFactor;
+    }
+
+    public double getClearWeatherVisionFactor() {
+        return clearWeatherVisionFactor;
+    }
+
+    public double getClearWeatherStealthFactor() {
+        return clearWeatherStealthFactor;
+    }
+
+    public double getClearWeatherSpeedFactor() {
+        return clearWeatherSpeedFactor;
+    }
+
+    public double getCloudWeatherVisionFactor() {
+        return cloudWeatherVisionFactor;
+    }
+
+    public double getCloudWeatherStealthFactor() {
+        return cloudWeatherStealthFactor;
+    }
+
+    public double getCloudWeatherSpeedFactor() {
+        return cloudWeatherSpeedFactor;
+    }
+
+    public double getRainWeatherVisionFactor() {
+        return rainWeatherVisionFactor;
+    }
+
+    public double getRainWeatherStealthFactor() {
+        return rainWeatherStealthFactor;
+    }
+
+    public double getRainWeatherSpeedFactor() {
+        return rainWeatherSpeedFactor;
+    }
+
+    public double getVehicleRadius() {
+        return vehicleRadius;
+    }
+
+    public int getTankDurability() {
+        return tankDurability;
+    }
+
+    public double getTankSpeed() {
+        return tankSpeed;
+    }
+
+    public double getTankVisionRange() {
+        return tankVisionRange;
+    }
+
+    public double getTankGroundAttackRange() {
+        return tankGroundAttackRange;
+    }
+
+    public double getTankAerialAttackRange() {
+        return tankAerialAttackRange;
+    }
+
+    public int getTankGroundDamage() {
+        return tankGroundDamage;
+    }
+
+    public int getTankAerialDamage() {
+        return tankAerialDamage;
+    }
+
+    public int getTankGroundDefence() {
+        return tankGroundDefence;
+    }
+
+    public int getTankAerialDefence() {
+        return tankAerialDefence;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными заклинаниями <<Ускорение>>.
-     */
-    public int getHasteCooldownTicks() {
-        return hasteCooldownTicks;
-    }
+    public int getTankAttackCooldownTicks() {
+        return tankAttackCooldownTicks;
+    }
+
+    public int getTankProductionCost() {
+        return tankProductionCost;
+    }
+
+    public int getIfvDurability() {
+        return ifvDurability;
+    }
+
+    public double getIfvSpeed() {
+        return ifvSpeed;
+    }
+
+    public double getIfvVisionRange() {
+        return ifvVisionRange;
+    }
+
+    public double getIfvGroundAttackRange() {
+        return ifvGroundAttackRange;
+    }
+
+    public double getIfvAerialAttackRange() {
+        return ifvAerialAttackRange;
+    }
+
+    public int getIfvGroundDamage() {
+        return ifvGroundDamage;
+    }
+
+    public int getIfvAerialDamage() {
+        return ifvAerialDamage;
+    }
+
+    public int getIfvGroundDefence() {
+        return ifvGroundDefence;
+    }
+
+    public int getIfvAerialDefence() {
+        return ifvAerialDefence;
+    }
+
+    public int getIfvAttackCooldownTicks() {
+        return ifvAttackCooldownTicks;
+    }
 
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными заклинаниями <<Щит>>.
-     */
-    public int getShieldCooldownTicks() {
-        return shieldCooldownTicks;
-    }
-
-    /**
-     * @return Возвращает количество магической энергии, требуемой для заклинания <<Магическая ракета>>.
-     */
-    public int getMagicMissileManacost() {
-        return magicMissileManacost;
-    }
-
-    /**
-     * @return Возвращает количество магической энергии, требуемой для заклинания <<Ледяная стрела>>.
-     */
-    public int getFrostBoltManacost() {
-        return frostBoltManacost;
-    }
-
-    /**
-     * @return Возвращает количество магической энергии, требуемой для заклинания <<Огненный шар>>.
-     */
-    public int getFireballManacost() {
-        return fireballManacost;
-    }
-
-    /**
-     * @return Возвращает количество магической энергии, требуемой для заклинания <<Ускорение>>.
-     */
-    public int getHasteManacost() {
-        return hasteManacost;
-    }
-
-    /**
-     * @return Возвращает количество магической энергии, требуемой для заклинания <<Щит>>.
-     */
-    public int getShieldManacost() {
-        return shieldManacost;
-    }
-
-    /**
-     * @return Возвращает базовый урон удара посохом.
-     * <p>
-     * Эффективный урон может быть выше в результате действия некоторых аур и/или изучения волшебником некоторых
-     * умений.
-     */
-    public int getStaffDamage() {
-        return staffDamage;
-    }
-
-    /**
-     * @return Возвращает сектор действия посоха волшебника.
-     * <p>
-     * Атака посохом поражает все живые объекты в секторе от {@code -staffSector / 2.0} до {@code staffSector / 2.0}.
-     * Этим же интервалом ограничены относительный угол снаряда, а также зона применения магического статуса.
-     */
-    public double getStaffSector() {
-        return staffSector;
-    }
-
-    /**
-     * @return Возвращает дальность действия посоха волшебника.
-     * <p>
-     * Атака посохом поражает все живые объекты, для каждого из которых верно, что расстояние от его центра до центра
-     * волшебника не превышает значение {@code staffRange + livingUnit.radius}.
-     */
-    public double getStaffRange() {
-        return staffRange;
-    }
-
-    /**
-     * @return Возвращает последовательность неотрицательных целых чисел.
-     * <p>
-     * Количество чисел равно количеству уровней, которые волшебник может получить в данном режиме игры. Значение с
-     * индексом {@code N} определяет количество опыта, которое необходимо набрать волшебнику уровня {@code N} для
-     * получения следующего уровня. Таким образом, количество опыта, необходимое волшебнику начального уровня для
-     * получения уровня {@code N}, равно сумме первых {@code N} элементов.
-     */
-    public int[] getLevelUpXpValues() {
-        return levelUpXpValues.length == 0 ? levelUpXpValues : Arrays.copyOf(levelUpXpValues, levelUpXpValues.length);
-    }
-
-    /**
-     * @return Возвращает радиус миньона.
-     */
-    public double getMinionRadius() {
-        return minionRadius;
-    }
-
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором миньон обнаруживает другие
-     * объекты.
-     */
-    public double getMinionVisionRange() {
-        return minionVisionRange;
-    }
-
-    /**
-     * @return Возвращает скорость миньона при движении вперёд.
-     * <p>
-     * Миньонам недоступно использование других видов движения, а также перемещение со скоростью, отличной от указанной.
-     */
-    public double getMinionSpeed() {
-        return minionSpeed;
-    }
-
-    /**
-     * @return Возвращает ограничение на изменение угла поворота миньона за один тик.
-     */
-    public double getMinionMaxTurnAngle() {
-        return minionMaxTurnAngle;
-    }
-
-    /**
-     * @return Возвращает максимальное значение жизненной энергии миньона.
-     */
-    public int getMinionLife() {
-        return minionLife;
-    }
-
-    /**
-     * @return Возвращает интервал, с которым появляются миньоны двух противостоящих фракций ({@code ACADEMY} и
-     * {@code RENEGADES}).
-     * <p>
-     * Миньоны каждой из этих фракций появляются тремя группами (по одной на дорожку) недалеко от своей базы. Группа
-     * состоит и трёх орков и одного фетиша. Сразу после появления миньоны начинают продвижение по своей дорожке в
-     * сторону базы противоположной фракции, при этом атакуя всех противников на своём пути.
-     */
-    public int getFactionMinionAppearanceIntervalTicks() {
-        return factionMinionAppearanceIntervalTicks;
-    }
-
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными атаками орка-дровосека.
-     */
-    public int getOrcWoodcutterActionCooldownTicks() {
-        return orcWoodcutterActionCooldownTicks;
-    }
-
-    /**
-     * @return Возвращает урон одной атаки орка-дровосека.
-     */
-    public int getOrcWoodcutterDamage() {
-        return orcWoodcutterDamage;
-    }
-
-    /**
-     * @return Возвращает сектор действия топора орка.
-     * <p>
-     * Атака топором поражает все живые объекты в секторе от {@code -orcWoodcutterAttackSector / 2.0} до
-     * {@code orcWoodcutterAttackSector / 2.0}.
-     */
-    public double getOrcWoodcutterAttackSector() {
-        return orcWoodcutterAttackSector;
-    }
-
-    /**
-     * @return Возвращает дальность действия топора орка.
-     * <p>
-     * Атака топором поражает все живые объекты, для каждого из которых верно, что расстояние от его центра до центра
-     * орка-дровосека не превышает значение {@code orcWoodcutterAttackRange + livingUnit.radius}.
-     */
-    public double getOrcWoodcutterAttackRange() {
-        return orcWoodcutterAttackRange;
-    }
-
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными атаками фетиша.
-     */
-    public int getFetishBlowdartActionCooldownTicks() {
-        return fetishBlowdartActionCooldownTicks;
-    }
-
-    /**
-     * @return Возвращает дальность полёта дротика, выпущенного фетишем.
-     */
-    public double getFetishBlowdartAttackRange() {
-        return fetishBlowdartAttackRange;
-    }
-
-    /**
-     * @return Возвращает сектор метания дротика фетишем.
-     * <p>
-     * Угол полёта дротика относительно направления фетиша ограничен интервалом от
-     * {@code -fetishBlowdartAttackSector / 2.0} до {@code fetishBlowdartAttackSector / 2.0}.
-     */
-    public double getFetishBlowdartAttackSector() {
-        return fetishBlowdartAttackSector;
+    public int getIfvProductionCost() {
+        return ifvProductionCost;
     }
 
-    /**
-     * @return Возвращает радиус бонуса.
-     */
-    public double getBonusRadius() {
-        return bonusRadius;
+    public int getArrvDurability() {
+        return arrvDurability;
     }
 
-    /**
-     * @return Возвращает интервал появления бонусов.
-     * <p>
-     * Каждый раз по прошествии указанного интервала симулятор игры создаёт до двух бонусов в точках
-     * ({@code mapSize * 0.3}, {@code mapSize * 0.3}) и ({@code mapSize * 0.7}, {@code mapSize * 0.7}). Если любая часть
-     * области появления бонуса уже занята волшебником или другим бонусом, то создание бонуса будет отложено до
-     * окончания очередного интервала.
-     */
-    public int getBonusAppearanceIntervalTicks() {
-        return bonusAppearanceIntervalTicks;
-    }
-
-    /**
-     * @return Возвращает количество баллов, начисляемых игроку, волшебник которого подробрал бонус.
-     * <p>
-     * Сам волшебник получает такое же количество опыта.
-     */
-    public int getBonusScoreAmount() {
-        return bonusScoreAmount;
-    }
-
-    /**
-     * @return Возвращает радиус дротика.
-     */
-    public double getDartRadius() {
-        return dartRadius;
-    }
-
-    /**
-     * @return Возвращает скорость полёта дротика.
-     */
-    public double getDartSpeed() {
-        return dartSpeed;
-    }
-
-    /**
-     * @return Возвращает урон дротика.
-     */
-    public int getDartDirectDamage() {
-        return dartDirectDamage;
-    }
-
-    /**
-     * @return Возвращает радиус <<Магической ракеты>>.
-     */
-    public double getMagicMissileRadius() {
-        return magicMissileRadius;
-    }
-
-    /**
-     * @return Возвращает скорость полёта <<Магической ракеты>>.
-     */
-    public double getMagicMissileSpeed() {
-        return magicMissileSpeed;
-    }
-
-    /**
-     * @return Возвращает урон <<Магической ракеты>>.
-     */
-    public int getMagicMissileDirectDamage() {
-        return magicMissileDirectDamage;
-    }
-
-    /**
-     * @return Возвращает радиус <<Ледяной стрелы>>.
-     */
-    public double getFrostBoltRadius() {
-        return frostBoltRadius;
-    }
-
-    /**
-     * @return Возвращает скорость полёта <<Ледяной стрелы>>.
-     */
-    public double getFrostBoltSpeed() {
-        return frostBoltSpeed;
-    }
-
-    /**
-     * @return Возвращает урон <<Ледяной стрелы>>.
-     */
-    public int getFrostBoltDirectDamage() {
-        return frostBoltDirectDamage;
-    }
-
-    /**
-     * @return Возвращает радиус <<Огненного шара>>.
-     */
-    public double getFireballRadius() {
-        return fireballRadius;
+    public double getArrvSpeed() {
+        return arrvSpeed;
     }
-
-    /**
-     * @return Возвращает скорость полёта <<Огненного шара>>.
-     */
-    public double getFireballSpeed() {
-        return fireballSpeed;
+
+    public double getArrvVisionRange() {
+        return arrvVisionRange;
+    }
+
+    public int getArrvGroundDefence() {
+        return arrvGroundDefence;
+    }
+
+    public int getArrvAerialDefence() {
+        return arrvAerialDefence;
+    }
+
+    public int getArrvProductionCost() {
+        return arrvProductionCost;
+    }
+
+    public double getArrvRepairRange() {
+        return arrvRepairRange;
+    }
+
+    public double getArrvRepairSpeed() {
+        return arrvRepairSpeed;
+    }
+
+    public int getHelicopterDurability() {
+        return helicopterDurability;
+    }
+
+    public double getHelicopterSpeed() {
+        return helicopterSpeed;
+    }
+
+    public double getHelicopterVisionRange() {
+        return helicopterVisionRange;
+    }
+
+    public double getHelicopterGroundAttackRange() {
+        return helicopterGroundAttackRange;
+    }
+
+    public double getHelicopterAerialAttackRange() {
+        return helicopterAerialAttackRange;
     }
 
-    /**
-     * @return Возвращает радиус области, в которой живые юниты получают максимальный урон от взрыва <<Огненного шара>>.
-     * @see #getFireballExplosionMaxDamage()
-     */
-    public double getFireballExplosionMaxDamageRange() {
-        return fireballExplosionMaxDamageRange;
+    public int getHelicopterGroundDamage() {
+        return helicopterGroundDamage;
     }
 
-    /**
-     * @return Возвращает радиус области, в которой живые юниты получают какой-либо урон от взрыва <<Огненного шара>>.
-     * @see #getFireballExplosionMaxDamage()
-     */
-    public double getFireballExplosionMinDamageRange() {
-        return fireballExplosionMinDamageRange;
+    public int getHelicopterAerialDamage() {
+        return helicopterAerialDamage;
     }
 
-    /**
-     * @return Возвращает урон <<Огненного шара>> в эпицентре взрыва.
-     * <p>
-     * Живой юнит получает {@code fireballExplosionMaxDamage} единиц урона, если расстояние от центра взрыва до
-     * ближайшей точки этого юнита не превышает {@code fireballExplosionMaxDamageRange}. По мере увеличения расстояния
-     * до {@code fireballExplosionMinDamageRange}, урон <<Огненного шара>> равномерно снижается и достигает
-     * {@code fireballExplosionMinDamage}. Если расстояние от центра взрыва до ближайшей точки живого юнита превышает
-     * {@code fireballExplosionMinDamageRange}, то урон ему не наносится.
-     * <p>
-     * Если живой юнит получил какой-либо урон от взрыва <<Огненного шара>>, то он загорается ({@code BURNING}).
-     */
-    public int getFireballExplosionMaxDamage() {
-        return fireballExplosionMaxDamage;
+    public int getHelicopterGroundDefence() {
+        return helicopterGroundDefence;
     }
 
-    /**
-     * @return Возвращает урон <<Огненного шара>> на периферии взрыва.
-     * @see #getFireballExplosionMaxDamage()
-     */
-    public int getFireballExplosionMinDamage() {
-        return fireballExplosionMinDamage;
+    public int getHelicopterAerialDefence() {
+        return helicopterAerialDefence;
     }
 
-    /**
-     * @return Возвращает радиус охранной башни.
-     */
-    public double getGuardianTowerRadius() {
-        return guardianTowerRadius;
+    public int getHelicopterAttackCooldownTicks() {
+        return helicopterAttackCooldownTicks;
     }
 
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором охранная башня обнаруживает другие
-     * объекты.
-     */
-    public double getGuardianTowerVisionRange() {
-        return guardianTowerVisionRange;
+    public int getHelicopterProductionCost() {
+        return helicopterProductionCost;
     }
 
-    /**
-     * @return Возвращает начальное значение жизненной энергии охранной башни.
-     */
-    public double getGuardianTowerLife() {
-        return guardianTowerLife;
+    public int getFighterDurability() {
+        return fighterDurability;
     }
 
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором охранная башня может атаковать
-     * другие объекты.
-     */
-    public double getGuardianTowerAttackRange() {
-        return guardianTowerAttackRange;
+    public double getFighterSpeed() {
+        return fighterSpeed;
     }
 
-    /**
-     * @return Возвращает урон одной атаки охранной башни.
-     */
-    public int getGuardianTowerDamage() {
-        return guardianTowerDamage;
+    public double getFighterVisionRange() {
+        return fighterVisionRange;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными атаками охранной башни.
-     */
-    public int getGuardianTowerCooldownTicks() {
-        return guardianTowerCooldownTicks;
+    public double getFighterGroundAttackRange() {
+        return fighterGroundAttackRange;
     }
 
-    /**
-     * @return Возвращает радиус базы фракции.
-     */
-    public double getFactionBaseRadius() {
-        return factionBaseRadius;
-    }
-
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором база фракции обнаруживает другие
-     * объекты.
-     */
-    public double getFactionBaseVisionRange() {
-        return factionBaseVisionRange;
-    }
+    public double getFighterAerialAttackRange() {
+        return fighterAerialAttackRange;
+    }
+
+    public int getFighterGroundDamage() {
+        return fighterGroundDamage;
+    }
 
-    /**
-     * @return Возвращает начальное значение жизненной энергии базы фракции.
-     */
-    public double getFactionBaseLife() {
-        return factionBaseLife;
+    public int getFighterAerialDamage() {
+        return fighterAerialDamage;
     }
 
-    /**
-     * @return Возвращает максимальное расстояние (от центра до центра), на котором база фракции может атаковать
-     * другие объекты.
-     */
-    public double getFactionBaseAttackRange() {
-        return factionBaseAttackRange;
+    public int getFighterGroundDefence() {
+        return fighterGroundDefence;
     }
 
-    /**
-     * @return Возвращает урон одной атаки базы фракции.
-     */
-    public int getFactionBaseDamage() {
-        return factionBaseDamage;
+    public int getFighterAerialDefence() {
+        return fighterAerialDefence;
     }
 
-    /**
-     * @return Возвращает минимально возможную задержку между двумя последовательными атаками базы фракции.
-     */
-    public int getFactionBaseCooldownTicks() {
-        return factionBaseCooldownTicks;
+    public int getFighterAttackCooldownTicks() {
+        return fighterAttackCooldownTicks;
     }
 
-    /**
-     * @return Возвращает длительность действия статуса {@code BURNING}.
-     */
-    public int getBurningDurationTicks() {
-        return burningDurationTicks;
+    public int getFighterProductionCost() {
+        return fighterProductionCost;
     }
 
-    /**
-     * @return Возвращает суммарный урон, получаемый живым юнитом за время действия статуса {@code BURNING}.
-     */
-    public int getBurningSummaryDamage() {
-        return burningSummaryDamage;
+    public double getMaxFacilityCapturePoints() {
+        return maxFacilityCapturePoints;
     }
 
-    /**
-     * @return Возвращает длительность действия статуса {@code EMPOWERED}.
-     */
-    public int getEmpoweredDurationTicks() {
-        return empoweredDurationTicks;
+    public double getFacilityCapturePointsPerVehiclePerTick() {
+        return facilityCapturePointsPerVehiclePerTick;
     }
 
-    /**
-     * @return Возвращает мультипликатор урона, наносимого живым юнитом под действием статуса {@code EMPOWERED}.
-     * <p>
-     * Мультипликатор применяется к ударам в ближнем бою, прямым попаданиям снарядов, а также взрыву <<Огненного шара>>,
-     * но не применяется к урону, получаемому от статусов.
-     */
-    public double getEmpoweredDamageFactor() {
-        return empoweredDamageFactor;
+    public double getFacilityWidth() {
+        return facilityWidth;
     }
 
-    /**
-     * @return Возвращает длительность действия статуса {@code FROZEN}.
-     */
-    public int getFrozenDurationTicks() {
-        return frozenDurationTicks;
-    }
-
-    /**
-     * @return Возвращает длительность действия статуса {@code HASTENED}.
-     */
-    public int getHastenedDurationTicks() {
-        return hastenedDurationTicks;
-    }
-
-    /**
-     * @return Возвращает мультилпикатор длительности действия статуса {@code HASTENED} в случае подбора бонуса.
-     */
-    public double getHastenedBonusDurationFactor() {
-        return hastenedBonusDurationFactor;
-    }
-
-    /**
-     * @return Возвращает относительное увеличение скорости перемещения в результате дествия статуса {@code HASTENED}.
-     * <p>
-     * Увеличение скорости от действия статуса {@code HASTENED} и увеличение скорости в результате изучения умений,
-     * являющихся пререквизитами умения {@code HASTE}, являются аддитивными. Таким образом, максимальное значение
-     * скорости волшебника составляет
-     * {@code 1.0 + 4.0 * movementBonusFactorPerSkillLevel + hastenedMovementBonusFactor} от базовой.
-     */
-    public double getHastenedMovementBonusFactor() {
-        return hastenedMovementBonusFactor;
-    }
-
-    /**
-     * @return Возвращает относительное увеличение скорости поворота в результате дествия статуса {@code HASTENED}.
-     */
-    public double getHastenedRotationBonusFactor() {
-        return hastenedRotationBonusFactor;
-    }
-
-    /**
-     * @return Возвращает длительность действия статуса {@code SHIELDED}.
-     */
-    public int getShieldedDurationTicks() {
-        return shieldedDurationTicks;
-    }
-
-    /**
-     * @return Возвращает мультилпикатор длительности действия статуса {@code SHIELDED} в случае подбора бонуса.
-     */
-    public double getShieldedBonusDurationFactor() {
-        return shieldedBonusDurationFactor;
-    }
-
-    /**
-     * @return Возвращает часть урона, поглощаемую щитом.
-     * <p>
-     * Снижение урона применяется к ударам в ближнем бою, прямым попаданиям снарядов, а также взрыву <<Огненного шара>>,
-     * но не применяется к урону, получаемому от статусов.
-     */
-    public double getShieldedDirectDamageAbsorptionFactor() {
-        return shieldedDirectDamageAbsorptionFactor;
-    }
-
-    /**
-     * @return Возвращает дальность действия аур.
-     */
-    public double getAuraSkillRange() {
-        return auraSkillRange;
-    }
-
-    /**
-     * @return Возвращает абсолютное увеличение дальности заклинаний волшебника за каждое последовательное изучение
-     * умения, являющегося одним из пререквизитов умения {@code ADVANCED_MAGIC_MISSILE}.
-     */
-    public double getRangeBonusPerSkillLevel() {
-        return rangeBonusPerSkillLevel;
-    }
-
-    /**
-     * @return Возвращает абсолютное увеличение урона, наносимого волшебником в результате прямых попаданий магических
-     * снарядов и взрыва <<Огненного шара>>, за каждое последовательное изучение умения, являющегося одним из
-     * пререквизитов умения {@code FROST_BOLT}.
-     */
-    public int getMagicalDamageBonusPerSkillLevel() {
-        return magicalDamageBonusPerSkillLevel;
-    }
-
-    /**
-     * @return Возвращает абсолютное увеличение урона, наносимого волшебником в ближнем бою, за каждое последовательное
-     * изучение умения, являющегося одним из пререквизитов умения {@code FIREBALL}.
-     */
-    public int getStaffDamageBonusPerSkillLevel() {
-        return staffDamageBonusPerSkillLevel;
-    }
-
-    /**
-     * @return Возвращает относительное увеличение скорости перемещения за каждое последовательное изучение умения,
-     * являющегося одним из пререквизитов умения {@code HASTE}.
-     * <p>
-     * Увеличение скорости от действия статуса {@code HASTENED} и увеличение скорости в результате изучения умений,
-     * являющихся пререквизитами умения {@code HASTE}, являются аддитивными. Таким образом, максимальное значение
-     * скорости волшебника составляет
-     * {@code 1.0 + 4.0 * movementBonusFactorPerSkillLevel + hastenedMovementBonusFactor} от базовой.
-     */
-    public double getMovementBonusFactorPerSkillLevel() {
-        return movementBonusFactorPerSkillLevel;
-    }
-
-    /**
-     * @return Возвращает абсолютное уменьшение урона, получаемого волшебником в результате прямых попаданий магических
-     * снарядов, взрыва <<Огненного шара>> и атак строений, за каждое последовательное изучение умения, являющегося
-     * одним из пререквизитов умения {@code SHIELD}.
-     */
-    public int getMagicalDamageAbsorptionPerSkillLevel() {
-        return magicalDamageAbsorptionPerSkillLevel;
+    public double getFacilityHeight() {
+        return facilityHeight;
     }
 }

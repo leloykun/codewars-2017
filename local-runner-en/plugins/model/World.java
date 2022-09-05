@@ -2,130 +2,106 @@ package model;
 
 import java.util.Arrays;
 
-/**
- * Этот класс описывает игровой мир. Содержит также описания всех игроков и игровых объектов (<<юнитов>>).
- */
+@SuppressWarnings("ForLoopWithMissingComponent")
 public class World {
     private final int tickIndex;
     private final int tickCount;
     private final double width;
     private final double height;
     private final Player[] players;
-    private final Wizard[] wizards;
-    private final Minion[] minions;
-    private final Projectile[] projectiles;
-    private final Bonus[] bonuses;
-    private final Building[] buildings;
-    private final Tree[] trees;
+    private final Vehicle[] vehicles;
+    private final TerrainType[][] terrainByCellXY;
+    private final WeatherType[][] weatherByCellXY;
+    private final Facility[] facilities;
 
     public World(
-            int tickIndex, int tickCount, double width, double height, Player[] players, Wizard[] wizards,
-            Minion[] minions, Projectile[] projectiles, Bonus[] bonuses, Building[] buildings, Tree[] trees) {
+            int tickIndex, int tickCount, double width, double height, Player[] players, Vehicle[] vehicles,
+            TerrainType[][] terrainByCellXY, WeatherType[][] weatherByCellXY, Facility[] facilities) {
         this.tickIndex = tickIndex;
         this.tickCount = tickCount;
         this.width = width;
         this.height = height;
         this.players = Arrays.copyOf(players, players.length);
-        this.wizards = Arrays.copyOf(wizards, wizards.length);
-        this.minions = Arrays.copyOf(minions, minions.length);
-        this.projectiles = Arrays.copyOf(projectiles, projectiles.length);
-        this.bonuses = Arrays.copyOf(bonuses, bonuses.length);
-        this.buildings = Arrays.copyOf(buildings, buildings.length);
-        this.trees = Arrays.copyOf(trees, trees.length);
+        this.vehicles = Arrays.copyOf(vehicles, vehicles.length);
+
+        this.terrainByCellXY = new TerrainType[terrainByCellXY.length][];
+        for (int x = terrainByCellXY.length; --x >= 0; ) {
+            this.terrainByCellXY[x] = Arrays.copyOf(terrainByCellXY[x], terrainByCellXY[x].length);
+        }
+
+        this.weatherByCellXY = new WeatherType[weatherByCellXY.length][];
+        for (int x = weatherByCellXY.length; --x >= 0; ) {
+            this.weatherByCellXY[x] = Arrays.copyOf(weatherByCellXY[x], weatherByCellXY[x].length);
+        }
+
+        this.facilities = Arrays.copyOf(facilities, facilities.length);
     }
 
-    /**
-     * @return Возвращает номер текущего тика.
-     */
     public int getTickIndex() {
         return tickIndex;
     }
 
-    /**
-     * @return Возвращает базовую длительность игры в тиках. Реальная длительность может отличаться от этого значения в
-     * меньшую сторону. Эквивалентно {@code game.tickCount}.
-     */
     public int getTickCount() {
         return tickCount;
     }
 
-    /**
-     * @return Возвращает ширину мира.
-     */
     public double getWidth() {
         return width;
     }
 
-    /**
-     * @return Возвращает высоту мира.
-     */
     public double getHeight() {
         return height;
     }
 
-    /**
-     * @return Возвращает список игроков (в случайном порядке).
-     * После каждого тика объекты, задающие игроков, пересоздаются.
-     */
     public Player[] getPlayers() {
         return Arrays.copyOf(players, players.length);
     }
 
-    /**
-     * @return Возвращает список видимых волшебников (в случайном порядке).
-     * После каждого тика объекты, задающие волшебников, пересоздаются.
-     */
-    public Wizard[] getWizards() {
-        return Arrays.copyOf(wizards, wizards.length);
+    public Vehicle[] getVehicles() {
+        return Arrays.copyOf(vehicles, vehicles.length);
     }
 
-    /**
-     * @return Возвращает список видимых последователей (в случайном порядке).
-     * После каждого тика объекты, задающие последователей, пересоздаются.
-     */
-    public Minion[] getMinions() {
-        return Arrays.copyOf(minions, minions.length);
+    public TerrainType[][] getTerrainByCellXY() {
+        @SuppressWarnings("LocalVariableHidesMemberVariable") TerrainType[][] terrainByCellXY = this.terrainByCellXY;
+        TerrainType[][] copiedTerrainByCellXY = new TerrainType[terrainByCellXY.length][];
+        for (int x = terrainByCellXY.length; --x >= 0; ) {
+            copiedTerrainByCellXY[x] = Arrays.copyOf(terrainByCellXY[x], terrainByCellXY[x].length);
+        }
+        return copiedTerrainByCellXY;
     }
 
-    /**
-     * @return Возвращает список видимых магических снарядов (в случайном порядке).
-     * После каждого тика объекты, задающие снаряды, пересоздаются.
-     */
-    public Projectile[] getProjectiles() {
-        return Arrays.copyOf(projectiles, projectiles.length);
+    public WeatherType[][] getWeatherByCellXY() {
+        @SuppressWarnings("LocalVariableHidesMemberVariable") WeatherType[][] weatherByCellXY = this.weatherByCellXY;
+        WeatherType[][] copiedWeatherByCellXY = new WeatherType[weatherByCellXY.length][];
+        for (int x = weatherByCellXY.length; --x >= 0; ) {
+            copiedWeatherByCellXY[x] = Arrays.copyOf(weatherByCellXY[x], weatherByCellXY[x].length);
+        }
+        return copiedWeatherByCellXY;
     }
 
-    /**
-     * @return Возвращает список видимых бонусов (в случайном порядке).
-     * После каждого тика объекты, задающие бонусы, пересоздаются.
-     */
-    public Bonus[] getBonuses() {
-        return Arrays.copyOf(bonuses, bonuses.length);
+    public Facility[] getFacilities() {
+        return Arrays.copyOf(facilities, facilities.length);
     }
 
-    /**
-     * @return Возвращает список видимых строений (в случайном порядке).
-     * После каждого тика объекты, задающие строения, пересоздаются.
-     */
-    public Building[] getBuildings() {
-        return Arrays.copyOf(buildings, buildings.length);
-    }
-
-    /**
-     * @return Возвращает список видимых деревьев (в случайном порядке).
-     * После каждого тика объекты, задающие деревья, пересоздаются.
-     */
-    public Tree[] getTrees() {
-        return Arrays.copyOf(trees, trees.length);
-    }
-
-    /**
-     * @return Возвращает вашего игрока.
-     */
     public Player getMyPlayer() {
-        for (int playerIndex = players.length - 1; playerIndex >= 0; --playerIndex) {
+        int playerIndex = players.length;
+
+        while (--playerIndex >= 0) {
             Player player = players[playerIndex];
             if (player.isMe()) {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
+    public Player getOpponentPlayer() {
+        int playerIndex = players.length;
+
+        while (--playerIndex >= 0) {
+            Player player = players[playerIndex];
+            if (!player.isMe()) {
                 return player;
             }
         }

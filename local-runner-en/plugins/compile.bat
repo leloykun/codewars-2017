@@ -31,3 +31,5 @@ if not "%JAVA_HOME%"=="" (
 )
 
 javac -encoding UTF-8 *.java
+
+Pause
