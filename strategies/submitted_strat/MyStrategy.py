@@ -5,10 +5,6 @@ from model.Move import Move
 from model.Player import Player
 from model.World import World
 
-import time
-import math
-import random
-
 import numpy as np
 from scipy.cluster.vq import kmeans2 as kmeans
 import scipy.cluster.hierarchy as hac
